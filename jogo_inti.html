@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo de Perguntas</title>
+  <style>
+    body {
+      font-family: Comic Sans MS;
+      text-align: center;
+      background-color: #09738a;
+    }
+
+    #quiz-container {
+      max-width: 900px;
+      margin: 250px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+
+    #result-container {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 28px;
+    }
+    button {
+      margin: 5px 8px 5px;
+      padding: 8px;
+      border-radius: 5px;
+      border-color: white;
+      font-family: Comic Sans MS;
+    }
+    p {
+      font-size: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="quiz-container">
+  <h1>Jogo de Perguntas</h1>
+  <p id="question"></p>
+  <div id="options" class="e1"></div>
+</div>
+
+<div id="result-container"></div>
+
+<script>
+const questionario = [
+  {
+    perguntas: "Quando foi lançado o Pentium III?",
+    alternativas: ["1999", "2001", "1997", "2005"],
+    altCorreta: "1999"
+  },
+  {
+    perguntas: "Quando a Intel foi fundada?",
+    alternativas: ["1970", "1999", "1968", "1950"],
+    altCorreta: "1968"
+  },
+  {
+    perguntas: "Quais foram os fundadores da Intel?",
+    alternativas: ["Bill Gates e Steve Jobs", "Robert Noyce e Gordon Moore", "Elon Musk e Jeff Bezos", "Andrea Liberman e Danni Mnitentag"],
+    altCorreta: "Robert Noyce e Gordon Moore"
+  },
+  {
+    perguntas: "Qual foi o processador lançado em 2006?",
+    alternativas: ["Processador Core","Pentium III","Processador Skylake","Processador Atom"],
+    altCorreta: "Processador Core"
+  },
+  {
+    perguntas: "Qual a maior concorrente da Intel?",
+    alternativas: ["AMD", "NVIDIA", "SAMSUNG", "MOTOROLA"],
+    altCorreta: "AMD"
+  }
+];
+
+let perIndex = 0;
+let pontuacao = 0;
+
+function loadQuestion() {
+  const currentQuestion = questionario[perIndex];
+  const questionElement = document.getElementById("question");
+  const optionsElement = document.getElementById("options");
+
+  questionElement.textContent = currentQuestion.perguntas;
+  optionsElement.innerHTML = "";
+
+  currentQuestion.alternativas.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.textContent = option;
+    button.addEventListener("click", () => selectAnswer(option));
+    optionsElement.appendChild(button);
+  });
+}
+
+
+function selectAnswer(selectedOption) {
+  const currentQuestion = questionario[perIndex];
+
+  if (selectedOption === currentQuestion.altCorreta) {
+    pontuacao++;
+  }
+
+  if (perIndex < questionario.length - 1) {
+    perIndex++;
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  const resultContainer = document.getElementById("result-container");
+  resultContainer.textContent = `Parabéns, sua pontuação Final foi ${pontuacao} de ${questionario.length}`;
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
